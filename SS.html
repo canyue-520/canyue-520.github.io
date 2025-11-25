@@ -1,15 +1,39 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> <!--开始1-3都是-->
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
+    <style>
+        body {
+            background-image: url("img3.jpg"); /*背景"图片路径" */
+            background-size: cover; /*背景自适应大小 */
+            background-repeat: no-repeat; /*避免背景图重复排列 */
+            background-attachment: fixed; /*滚动页面时背景保持固定 */
+            background-position: center;
+        }
+            .img-text-wrap{ /*添加了图片和文字容器样式 */
+                position: relative;
+                display: inline-block;
+            .text-over-img{ /*图片上方的文字样式*/
+              position: absolute;
+              top: 20px;
+              left:20px;
+              color: green;
+              font-size: 20px;
+              text-shadow: 1px 1px 2px black;
+            }
+            }
+    </style>
+<meta charset="UTF-8"> <!--设置字符编码为UTF-8,避免乱码 -->
 <title>canyue</title>
 </head>
 <body>
-    <h1>我的第一个标题</h1>
-    <p>我的第一个段落。
-    <a href="https://www.runoob.com">这是一个链接</a>
-    <img src="https://raw.githubusercontent.com/canyue-520/canyue-520.github.io/main/img1.jpg">
-    <img src="https://raw.githubusercontent.com/canyue-520/canyue-520.github.io/main/img2.jpg">
+    <h1>好东西</h1> <!--一级标题 -->
+    <p>开篇 <!-- 段落文本 -->
+    <a href="https://www.runoob.com">这是一个链接</a> <!-- 外部链接:(输入网页地址) -->
+   <div class="img-text-wrap">
+        <img src="img1.jpg" width="400" alt="图片1"> <!-- 图片 -->
+        <div class="text-over-img">花开花落花无悔</div> <!-- 叠加的文字 -->
+    </div>
+    <img src="img1.jpg"width="400"/> <!-- width宽度 height高度 只弄一个图片会只适应 -->
+    <img src="img2.jpg"height="450"calss="pic2"/> <!-- w和h都设置可能会导致图片变形（所以只建议一个） -->
 </body>
-
 </html>
