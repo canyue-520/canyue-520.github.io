@@ -1,187 +1,100 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!-- 新增：适配移动端（避免手机端布局错乱） -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>canyue</title>
     <style>
         body {
-            background-image: url("img3.jpg");/*背景图片路径 */
-            background-size: cover;/*背景自适应大小 */
-            background-repeat: no-repeat;/*避免背景图重复 */
-            background-attachment: fixed;/*滚动时背景固定 */
-            background-position: center; /*背景居中 */
+            background-image: url("img3.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
             margin: 0;
             padding: 20px;
             color: white;
             text-shadow: 1px 1px 2px black;
-            /* 新增：背景图叠加半透明层，让文字更清晰（解决背景过亮时文字看不清） */
-            background-color: rgba(0, 0, 0, 0.3);
-            background-blend-mode: overlay;
         }
 
-        /* 两栏布局：优化响应式（手机端自动变成单栏） */
+        /* 启用两栏布局 */
         .page-layout {
             display: flex;
             gap: 40px;
             max-width: 1600px;
             margin: 0 auto;
             margin-top: 20px; /* 顶部间距 */
-            /* 新增：适配小屏幕（手机/平板） */
-            flex-wrap: wrap;
         }
         .left-column, .right-column {
             flex: 1;
-            min-width: 300px; /* 最小宽度：屏幕小于600px时自动换行 */
+            min-width: 0;
         }
 
-        /* 图片+文字叠加容器：优化定位逻辑 */
         .img-text-wrap {
             position: relative;
-            display: block;
+            display: inline-block;
             margin: 10px 0;
-            /* 新增：防止文字溢出图片 */
-            overflow: hidden;
-            border-radius: 8px; /* 与图片圆角一致，更美观 */
         }
         .text-over-img {
             position: absolute;
             top: 20px;
             left: 20px;
             color: green;
-            font-size: 24px; /* 增大字体，更醒目 */
-            text-shadow: 1px 1px 3px black; /* 加深阴影，提升可读性 */
-            z-index: 10; /* 确保文字在图片上方 */
-            /* 新增：文字背景半透明，避免与图片细节冲突 */
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 8px 16px;
-            border-radius: 4px;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px black;
         }
 
-        /* 视频样式：优化兼容性和间距 */
-        .video-wrapper {
-            width: 100%;
-            border: 2px solid white;
-            border-radius: 8px;
-            /* 新增：视频底部间距，避免和文字挤在一起 */
-            margin-bottom: 20px;
-            /* 新增：overflow隐藏，防止视频控件溢出边框 */
-            overflow: hidden;
-        }
-        .video-wrapper video {
+        .right-column video {
             width: 100%;
             height: auto;
-            /* 新增：消除视频默认内边距，与边框贴合 */
-            display: block;
+            border: 2px solid white;
+            border-radius: 8px;
         }
 
-        /* 链接容器：优化样式和交互 */
         .link-container {
             margin: 20px 0;
             display: flex;
             gap: 30px;
-            /* 新增：链接换行（避免屏幕小时挤在一起） */
-            flex-wrap: wrap;
-            padding: 10px 0;
         }
         a {
             color: lightgreen;
             text-decoration: none;
-            font-size: 18px;
-            /* 新增：链接背景，提升点击区域和视觉效果 */
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            transition: all 0.3s ease; /* 平滑过渡效果 */
         }
         a:hover {
             color: white;
-            text-decoration: none; /* 取消下划线，用边框替代 */
-            background-color: rgba(144, 238, 144, 0.2);
-            border-color: lightgreen;
+            text-decoration: underline;
         }
 
-        /* 统一图片样式：优化比例和加载体验 */
         img {
-            width: 100%; /* 统一宽度 */
-            height: auto; /* 保持比例 */
-            margin: 5px 0;
-            border-radius: 8px; /* 圆角美化 */
-            /* 新增：图片加载过渡，避免突兀 */
-            transition: transform 0.5s ease;
+            margin: 5px;
         }
-        /* 鼠标悬停图片放大，提升交互感 */
-        img:hover {
-            transform: scale(1.02); /* 轻微放大（1.02倍） */
-        }
-
-        /* 特定图片样式：优化显示 */
-        .pic2 {
-            max-height: 450px; /* 限制最大高度 */
-            object-fit: cover; /* 保持比例填充（避免图片拉伸） */
-            width: 100%; /* 确保宽度满容器 */
-        }
-
-        /* 标题样式：优化排版 */
-        h1 {
-            font-size: 32px;
-            margin: 20px 0 10px;
-            /* 新增：标题下划线，增强视觉层次 */
-            border-bottom: 2px solid lightgreen;
-            padding-bottom: 8px;
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.6; /* 行高优化，提升可读性 */
-            margin: 10px 0;
-        }
-
-        /* 修复原代码错误：之前video选择器后多了一个花括号（导致样式失效） */
-        /* 原错误代码：
-        video {}
+        /* 视频底部加间距 */
+        video {
             margin-bottom: 20px;
         }
-        已整合到.video-wrapper中，避免语法错误 */
     </style>
+<meta charset="UTF-8">
+<title>canyue</title>
 </head>
 <body>
-    <div class="page-layout">
-        <div class="left-column">
-            <!-- 优化：视频外层加容器，解决边框和间距问题 -->
-            <div class="video-wrapper">
-                <video controls src="img14.mp4">
-                    <!-- 优化1：添加WebM格式，兼容所有浏览器（Firefox/Chrome/Edge/Safari） -->
-                    
-                    你的浏览器不支持HTML5视频播放，请升级浏览器或点击<a href="img14.mp4" style="color: lightblue;">直接下载视频</a>查看。
-                </video>
-            </div>
-            <h1>好东西</h1>
-            <p>开篇</p>
-            <div class="link-container">
-                <a href="https://www.runoob.com" target="_blank">菜鸟教学</a> <!-- 新增target="_blank"：新窗口打开链接 -->
-                <a href="https://www.baidu.com" target="_blank">百度网页</a>
-            </div>
-        </div>
-        <div class="right-column">
-            <!-- 第一个图片+文字容器 -->
-            <div class="img-text-wrap">
-                <div class="text-over-img">花开花落花无悔</div>
-                <img src="img1.jpg" alt="花开花落" title="花开花落花无悔"/> <!-- 优化alt和title：提升可访问性（屏幕阅读器识别） -->
-            </div>
-
-            <!-- 第二个图片+文字容器 -->
-            <div class="img-text-wrap">
-                <div class="text-over-img">缘来缘去源如水</div>
-                <img src="img2.jpg" class="pic2" alt="缘来缘去" title="缘来缘去源如水"/>
-            </div>
-
-            <!-- 可选：新增第三个诗词图片（延续风格，可删除） -->
-            <div class="img-text-wrap">
-                <div class="text-over-img">情深情浅情难遂</div>
-                <img src="img4.jpg" alt="情深情浅" title="情深情浅情难遂"/>
-            </div>
+<div class="page-layout">
+    <div class="left-column">
+        <video controls width="100%">
+            <source src="img14.mp4" type="video/mp4">
+            你的浏览器不支持 HTML5 视频播放。
+        </video>
+        <h1>好东西</h1>
+        <p>开篇</p> <!-- 闭合p标签 -->
+        <div class="link-container">
+            <a href="https://www.runoob.com">这是一个链接</a>
+            <a href="https://www.baidu.com">百度网页</a>
         </div>
     </div>
+    <div class="right-column">
+        <div class="img-text-wrap">
+
+            <div class="text-over-img">花开花落花无悔</div>
+        </div>
+        <img src="img1.jpg" width="100%" alt="图片副本"/>
+        <img src="img2.jpg" height="450" class="pic2" alt="图片2"/> <!-- 修正class -->
+    </div>
+</div>
 </body>
 </html>
