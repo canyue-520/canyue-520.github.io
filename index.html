@@ -20,7 +20,7 @@
             font-family: "Microsoft YaHei", "SimSun", serif;
         }
 
-        /* 顶部诗词标题栏（已删除不需要的文字） */
+        /* 顶部诗词标题栏 */
         .header {
             max-width: 1600px;
             margin: 0 auto 30px;
@@ -208,12 +208,8 @@
             color: #b8daff;
             margin-top: 10px;
         }
-        .footer a {
-            font-size: 16px;
-            color: #90ee90;
-        }
 
-        /* 美化后的背景音乐播放器（新增） */
+        /* 美化后的背景音乐播放器 */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -258,7 +254,6 @@
     </style>
 </head>
 <body>
-    <!-- 顶部标题栏（已删除不需要的文字） -->
     <div class="header">
         <h1>岁月如诗</h1>
     </div>
@@ -321,9 +316,64 @@
         <p class="sub-text">学妹你快回来啊</p>
     </div>
 
-    <!-- 美化后的背景音乐播放器（新增） -->
+    <!-- 音乐播放器（修复标签闭合） -->
     <div class="music-player">
         <span class="music-label">背景音乐</span>
         <audio id="bgMusic" src="background-music.mp3" loop>
             你的浏览器不支持音频播放。
-        <|FunctionCallEnd|>
+        </audio> <!-- 修复：正确闭合audio标签 -->
+        <div class="player-controls">
+            <button class="play-btn" onclick="togglePlay()">&#9654;</button>
+            <div class="time-display">0:00 / 0:00</div>
+            <button class="volume-btn" onclick="toggleMute()">&#128263;</button>
+        </div>
+    </div>
+
+    <!-- 补全缺失的JS代码 -->
+    <script>
+        // 注解卡片展开/收起
+        function toggleNote(element) {
+            element.classList.toggle('active');
+        }
+
+        // 音乐播放器控制
+        const bgMusic = document.getElementById('bgMusic');
+        const timeDisplay = document.querySelector('.time-display');
+        let isMuted = false;
+
+        function togglePlay() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                document.querySelector('.play-btn').innerHTML = '&#10074;&#10074;';
+                bgMusic.addEventListener('timeupdate', updateTime);
+            } else {
+                bgMusic.pause();
+                document.querySelector('.play-btn').innerHTML = '&#9654;';
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            bgMusic.muted = isMuted;
+            document.querySelector('.volume-btn').innerHTML = isMuted ? '&#128266;' : '&#128263;';
+        }
+
+        function updateTime() {
+            const currentTime = formatTime(bgMusic.currentTime);
+            const duration = formatTime(bgMusic.duration || 0);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        bgMusic.addEventListener('loadedmetadata', function() {
+            updateTime();
+            bgMusic.volume = 0.3;
+        });
+    </script>
+</body>
+</html>
