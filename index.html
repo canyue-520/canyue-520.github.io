@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>canyue - 诗词与影像</title>
+    <title>canyue</title>
     <style>
         body {
             background-image: url("img3.jpg");/*背景图片路径 */
@@ -199,7 +199,14 @@
         }
         .footer p {
             margin: 5px 0;
-            font-size: 16px;
+        }
+        .footer .main-text {
+            font-size: 18px;
+        }
+        .footer .sub-text {
+            font-size: 14px; /* 小一号字体 */
+            color: #b8daff;
+            margin-top: 10px;
         }
         .footer a {
             font-size: 16px;
@@ -283,8 +290,6 @@
             <div class="link-container">
                 <a href="https://www.runoob.com" target="_blank">菜鸟教学</a>
                 <a href="https://www.baidu.com" target="_blank">百度网页</a>
-                <a href="https://www.gushiwen.cn/" target="_blank">古诗文网</a>
-                <a href="https://www.zhihu.com/topic/19552831" target="_blank">诗词话题</a>
             </div>
         </div>
 
@@ -312,9 +317,8 @@
     </div>
 
     <div class="footer">
-        <p>© 2025 canyue - 诗词与影像作品集</p>
-        <p>背景图、图片、视频均为个人收藏，仅供学习交流使用</p>
-        <p><a href="mailto:your-email@example.com">联系我</a> | <a href="#">关于本站</a></p>
+        <p class="main-text">残月是大帅哥</p>
+        <p class="sub-text">学妹你快回来啊</p>
     </div>
 
     <!-- 美化后的背景音乐播放器（新增） -->
@@ -322,58 +326,4 @@
         <span class="music-label">背景音乐</span>
         <audio id="bgMusic" src="background-music.mp3" loop>
             你的浏览器不支持音频播放。
-        </audio>
-        <div class="player-controls">
-            <button class="play-btn" onclick="togglePlay()">&#9654;</button>
-            <div class="time-display">0:00 / 0:00</div>
-            <button class="volume-btn" onclick="toggleMute()">&#128263;</button>
-        </div>
-    </div>
-
-    <script>
-        // 注解卡片展开/收起
-        function toggleNote(element) {
-            element.classList.toggle('active');
-        }
-
-        // 音乐播放器控制（新增）
-        const bgMusic = document.getElementById('bgMusic');
-        const timeDisplay = document.querySelector('.time-display');
-        let isMuted = false;
-
-        function togglePlay() {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                document.querySelector('.play-btn').innerHTML = '&#10074;&#10074;';
-                bgMusic.addEventListener('timeupdate', updateTime);
-            } else {
-                bgMusic.pause();
-                document.querySelector('.play-btn').innerHTML = '&#9654;';
-            }
-        }
-
-        function toggleMute() {
-            isMuted = !isMuted;
-            bgMusic.muted = isMuted;
-            document.querySelector('.volume-btn').innerHTML = isMuted ? '&#128266;' : '&#128263;';
-        }
-
-        function updateTime() {
-            const currentTime = formatTime(bgMusic.currentTime);
-            const duration = formatTime(bgMusic.duration || 0);
-            timeDisplay.textContent = `${currentTime} / ${duration}`;
-        }
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec.toString().padStart(2, '0')}`;
-        }
-
-        bgMusic.addEventListener('loadedmetadata', function() {
-            updateTime();
-            bgMusic.volume = 0.3;
-        });
-    </script>
-</body>
-</html>
+        <|FunctionCallEnd|>
