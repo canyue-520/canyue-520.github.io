@@ -1,100 +1,379 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canyue - 诗词与影像</title>
     <style>
         body {
-            background-image: url("img3.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
+            background-image: url("img3.jpg");/*背景图片路径 */
+            background-size: cover;/*背景自适应大小 */
+            background-repeat: no-repeat;/*避免背景图重复 */
+            background-attachment: fixed;/*滚动时背景固定 */
+            background-position: center; /*背景居中 */
             margin: 0;
             padding: 20px;
             color: white;
             text-shadow: 1px 1px 2px black;
+            background-color: rgba(0, 0, 0, 0.3);
+            background-blend-mode: overlay;
+            font-family: "Microsoft YaHei", "SimSun", serif;
         }
 
-        /* 启用两栏布局 */
+        /* 顶部诗词标题栏（已删除不需要的文字） */
+        .header {
+            max-width: 1600px;
+            margin: 0 auto 30px;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .header h1 {
+            font-size: 42px;
+            margin: 0;
+            color: #f0f8ff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 两栏布局 */
         .page-layout {
             display: flex;
             gap: 40px;
             max-width: 1600px;
             margin: 0 auto;
-            margin-top: 20px; /* 顶部间距 */
+            flex-wrap: wrap;
         }
         .left-column, .right-column {
             flex: 1;
-            min-width: 0;
+            min-width: 300px;
         }
 
+        /* 图片+文字容器 */
         .img-text-wrap {
             position: relative;
-            display: inline-block;
+            display: block;
             margin: 10px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
+        }
+        .img-text-wrap:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         .text-over-img {
             position: absolute;
             top: 20px;
             left: 20px;
-            color: green;
-            font-size: 20px;
-            text-shadow: 1px 1px 2px black;
+            color: #90ee90;
+            font-size: 24px;
+            text-shadow: 1px 1px 3px black;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .img-text-wrap:hover .text-over-img {
+            font-size: 26px;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        .right-column video {
+        /* 诗词注解卡片 */
+        .poem-note {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid #90ee90;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .poem-note:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .note-title {
+            font-size: 19px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-content {
+            font-size: 16px;
+            margin: 10px 0 0;
+            color: #f0f8ff;
+            line-height: 1.8;
+            display: none;
+        }
+        .poem-note.active .note-content {
+            display: block;
+        }
+        .toggle-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        .poem-note.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 视频样式 */
+        .video-wrapper {
             width: 100%;
-            height: auto;
             border: 2px solid white;
             border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
+        /* 链接容器 */
         .link-container {
             margin: 20px 0;
             display: flex;
             gap: 30px;
+            flex-wrap: wrap;
+            padding: 10px 0;
         }
         a {
             color: lightgreen;
             text-decoration: none;
+            font-size: 18px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
         }
         a:hover {
             color: white;
-            text-decoration: underline;
+            text-decoration: none;
+            background-color: rgba(144, 238, 144, 0.2);
+            border-color: lightgreen;
         }
 
+        /* 图片样式 */
         img {
-            margin: 5px;
+            width: 100%;
+            height: auto;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: transform 0.5s ease;
         }
-        /* 视频底部加间距 */
-        video {
-            margin-bottom: 20px;
+        img:hover {
+            transform: scale(1.02);
+        }
+        .pic2 {
+            max-height: 450px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        /* 标题样式 */
+        .content-h1 {
+            font-size: 32px;
+            margin: 20px 0 10px;
+            border-bottom: 2px solid lightgreen;
+            padding-bottom: 8px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        /* 底部版权信息 */
+        .footer {
+            max-width: 1600px;
+            margin: 50px auto 20px;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 16px;
+            color: #d1e7dd;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .footer a {
+            font-size: 16px;
+            color: #90ee90;
+        }
+
+        /* 美化后的背景音乐播放器（新增） */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+        }
+        .music-label {
+            font-size: 14px;
+            color: #e6f7ff;
+            white-space: nowrap;
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .play-btn, .volume-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        .play-btn:hover, .volume-btn:hover {
+            color: #90ee90;
+        }
+        .time-display {
+            font-size: 13px;
+            color: #d1e7dd;
+            min-width: 60px;
+            text-align: center;
         }
     </style>
-<meta charset="UTF-8">
-<title>canyue</title>
 </head>
 <body>
-<div class="page-layout">
-    <div class="left-column">
-        <video controls width="100%">
-            <source src="img10.mp4" type="video/mp4">
-            你的浏览器不支持 HTML5 视频播放。
-        </video>
-        <h1>好东西</h1>
-        <p>开篇</p> <!-- 闭合p标签 -->
-        <div class="link-container">
-            <a href="https://www.runoob.com">这是一个链接</a>
-            <a href="https://www.baidu.com">百度网页</a>
-        </div>
+    <!-- 顶部标题栏（已删除不需要的文字） -->
+    <div class="header">
+        <h1>岁月如诗</h1>
     </div>
-    <div class="right-column">
-        <div class="img-text-wrap">
 
-            <div class="text-over-img">花开花落花无悔</div>
+    <div class="page-layout">
+        <div class="left-column">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="img14.mp4" type="video/mp4">
+                    <source src="img14.webm" type="video/webm">
+                    你的浏览器不支持HTML5视频播放，请升级浏览器或点击<a href="img14.mp4" style="color: lightblue;">直接下载视频</a>查看。
+                </video>
+            </div>
+
+            <h1 class="content-h1">好东西</h1>
+            <p>开篇</p>
+
+            <div class="poem-note" onclick="toggleNote(this)">
+                <div class="note-title">
+                    诗词注解 <span class="toggle-icon">▼</span>
+                </div>
+                <div class="note-content">
+                    <p>「花开花落花无悔」：花的绽放与凋零，都是自然的常态，无需遗憾，正如人生的悲欢离合。</p>
+                    <p>「缘来缘去源如水」：缘分的聚散如同流水般自然，强求不得，唯有顺其自然，方能心安。</p>
+                    <p>「情深情浅情难遂」：感情的深浅不由人，许多心愿终究难以实现，但这份真挚的情感本身已足够珍贵。</p>
+                </div>
+            </div>
+
+            <div class="link-container">
+                <a href="https://www.runoob.com" target="_blank">菜鸟教学</a>
+                <a href="https://www.baidu.com" target="_blank">百度网页</a>
+                <a href="https://www.gushiwen.cn/" target="_blank">古诗文网</a>
+                <a href="https://www.zhihu.com/topic/19552831" target="_blank">诗词话题</a>
+            </div>
         </div>
-        <img src="img1.jpg" width="100%" alt="图片副本"/>
-        <img src="img2.jpg" height="450" class="pic2" alt="图片2"/> <!-- 修正class -->
+
+        <div class="right-column">
+            <div class="img-text-wrap">
+                <div class="text-over-img">花开花落花无悔</div>
+                <img src="img1.jpg" alt="花开花落" title="花开花落花无悔"/>
+            </div>
+
+            <div class="img-text-wrap">
+                <div class="text-over-img">缘来缘去源如水</div>
+                <img src="img2.jpg" class="pic2" alt="缘来缘去" title="缘来缘去源如水"/>
+            </div>
+
+            <div class="img-text-wrap">
+                <div class="text-over-img">情深情浅情难遂</div>
+                <img src="img4.jpg" alt="情深情浅" title="情深情浅情难遂"/>
+            </div>
+
+            <div class="img-text-wrap">
+                <div class="text-over-img">人来人往人憔悴</div>
+                <img src="img5.jpg" alt="人来人往" title="人来人往人憔悴"/>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="footer">
+        <p>© 2025 canyue - 诗词与影像作品集</p>
+        <p>背景图、图片、视频均为个人收藏，仅供学习交流使用</p>
+        <p><a href="mailto:your-email@example.com">联系我</a> | <a href="#">关于本站</a></p>
+    </div>
+
+    <!-- 美化后的背景音乐播放器（新增） -->
+    <div class="music-player">
+        <span class="music-label">背景音乐</span>
+        <audio id="bgMusic" src="background-music.mp3" loop>
+            你的浏览器不支持音频播放。
+        </audio>
+        <div class="player-controls">
+            <button class="play-btn" onclick="togglePlay()">&#9654;</button>
+            <div class="time-display">0:00 / 0:00</div>
+            <button class="volume-btn" onclick="toggleMute()">&#128263;</button>
+        </div>
+    </div>
+
+    <script>
+        // 注解卡片展开/收起
+        function toggleNote(element) {
+            element.classList.toggle('active');
+        }
+
+        // 音乐播放器控制（新增）
+        const bgMusic = document.getElementById('bgMusic');
+        const timeDisplay = document.querySelector('.time-display');
+        let isMuted = false;
+
+        function togglePlay() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                document.querySelector('.play-btn').innerHTML = '&#10074;&#10074;';
+                bgMusic.addEventListener('timeupdate', updateTime);
+            } else {
+                bgMusic.pause();
+                document.querySelector('.play-btn').innerHTML = '&#9654;';
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            bgMusic.muted = isMuted;
+            document.querySelector('.volume-btn').innerHTML = isMuted ? '&#128266;' : '&#128263;';
+        }
+
+        function updateTime() {
+            const currentTime = formatTime(bgMusic.currentTime);
+            const duration = formatTime(bgMusic.duration || 0);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        bgMusic.addEventListener('loadedmetadata', function() {
+            updateTime();
+            bgMusic.volume = 0.3;
+        });
+    </script>
 </body>
 </html>
