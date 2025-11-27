@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- 新增：适配移动端（避免手机端布局错乱） -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>canyue - 诗词与影像</title>
+    <title>canyue</title>
     <style>
         body {
             background-image: url("img3.jpg");/*背景图片路径 */
@@ -150,11 +150,9 @@
         <div class="left-column">
             <!-- 优化：视频外层加容器，解决边框和间距问题 -->
             <div class="video-wrapper">
-                <video controls>
+                <video controls src="img14.mp4">
                     <!-- 优化1：添加WebM格式，兼容所有浏览器（Firefox/Chrome/Edge/Safari） -->
-                    <source src="img14.mp4" type="video/mp4">
-                    <source src="img14.webm" type="video/webm"> <!-- 可选：没有WebM可暂时注释，但建议转换补充 -->
-                    <!-- 优化2：更友好的降级提示 -->
+                    
                     你的浏览器不支持HTML5视频播放，请升级浏览器或点击<a href="img14.mp4" style="color: lightblue;">直接下载视频</a>查看。
                 </video>
             </div>
