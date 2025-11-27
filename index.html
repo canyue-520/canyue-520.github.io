@@ -1,39 +1,119 @@
-<!DOCTYPE html> <!--开始1-3都是-->
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <style>
         body {
-            background-image: url("img3.jpg"); /*背景"图片路径" */
-            background-size: cover; /*背景自适应大小 */
-            background-repeat: no-repeat; /*避免背景图重复排列 */
-            background-attachment: fixed; /*滚动页面时背景保持固定 */
-            background-position: center;
+            background-image: url("img3.jpg");/*背景"图片路径" */
+            background-size: cover;/*背景自适应大小 */
+            background-repeat: no-repeat;/*避免背景图重复排列 */
+            background-attachment: fixed;/*滚动页面时背景保持固定 */
+            background-position: center; /*添加了图片和文字容器样式
+            margin: 0;
+            padding: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
         }
-            .img-text-wrap{ /*添加了图片和文字容器样式 */
-                position: relative;
-                display: inline-block;
-            .text-over-img{ /*图片上方的文字样式*/
-              position: absolute;
-              top: 20px;
-              left:20px;
-              color: green;
-              font-size: 20px;
-              text-shadow: 1px 1px 2px black;
-            }
-            }
+
+        /* 启用两栏布局 */
+        .page-layout {
+            display: flex;
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            margin-top: 20px; /* 顶部间距 */
+        }
+        .left-column, .right-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .img-text-wrap {
+            position: relative;
+            display: block; /* 改为块级元素 */
+            margin: 10px 0;
+        }
+        .text-over-img {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: green;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px black;
+            z-index: 10; /* 确保文字在图片上方 */
+        }
+
+        .right-column video {
+            width: 100%;
+            height: auto;
+            border: 2px solid white;
+            border-radius: 8px;
+        }
+
+        .link-container {
+            margin: 20px 0;
+            display: flex;
+            gap: 30px;
+        }
+        a {
+            color: lightgreen;
+            text-decoration: none;
+        }
+        a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* 统一图片大小 */
+        img {
+            width: 100%; /* 统一宽度 */
+            height: auto; /* 保持比例 */
+            margin: 5px 0;
+            border-radius: 8px; /* 可选：添加圆角 */
+        }
+
+        /* 特定图片的样式 */
+        .pic2 {
+            max-height: 450px; /* 限制最大高度 */
+            object-fit: cover; /* 保持比例填充 */
+        }
+
+        /* 视频底部加间距 */
+        video {}
+            margin-bottom: 20px;
+        }
     </style>
-<meta charset="UTF-8"> <!--设置字符编码为UTF-8,避免乱码 -->
-<title>canyue</title>
+    <meta charset="UTF-8">
+    <title>canyue</title>
 </head>
 <body>
-    <h1>好东西</h1> <!--一级标题 -->
-    <p>开篇 <!-- 段落文本 -->
-    <a href="https://www.runoob.com">这是一个链接</a> <!-- 外部链接:(输入网页地址) -->
-   <div class="img-text-wrap">
-        <img src="img1.jpg" width="400" alt="图片1"> <!-- 图片 -->
-        <div class="text-over-img">花开花落花无悔</div> <!-- 叠加的文字 -->
+    <div class="page-layout">
+        <div class="left-column">
+            <video controls width="100%">
+                <source src="img14.mp4" type="video/mp4">
+                你的浏览器不支持 HTML5 视频播放。
+            </video>
+            <h1>好东西</h1>
+            <p>开篇</p>
+            <div class="link-container">
+                <a href="https://www.runoob.com">菜鸟教学</a>
+                <a href="https://www.baidu.com">百度网页</a>
+            </div>
+        </div>
+        <div class="right-column">
+            <!-- 第一个图片+文字容器 -->
+            <div class="img-text-wrap">
+                <div class="text-over-img">花开花落花无悔</div>
+                <img src="img1.jpg" alt="图片1"/> <!-- 添加图片 -->
+            </div>
+
+            <!-- 第二个图片+文字容器 -->
+            <div class="img-text-wrap">
+                <div class="text-over-img">缘来缘去源如水</div>
+                <img src="img2.jpg" class="pic2" alt="图片2"/>
+            </div>
+
+
+        </div>
     </div>
-    <img src="img1.jpg"width="400"/> <!-- width宽度 height高度 只弄一个图片会只适应 -->
-    <img src="img2.jpg"height="450"calss="pic2"/> <!-- w和h都设置可能会导致图片变形（所以只建议一个） -->
 </body>
 </html>
